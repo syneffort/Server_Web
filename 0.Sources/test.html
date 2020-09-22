@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="kr">
     <head>
-        <title>Test HTML Code</title>
+        <title>테스트 웹 페이지</title>
+        <meta charset="UTF-8">
 
         <style>
             table, th, td
@@ -67,5 +68,21 @@
                 </tr>
             </tfoot>
         </table>
+
+        <br>
+        <button type="button" onclick="alert('Hello world!')">
+            <img src="../1.Resources/img_girl.jpg" alt="Girl in a jacket" width="50" height="60">
+        </button>
+        <button type="button" onclick="testFunc()">JS 테스트</button>
+
+        <script>
+            function testFunc()
+            {
+                alert("JavaScript 테스트 함수")
+            }
+        </script>
+        <br>
+        <input type="date">
+
     </body>
 </html>
