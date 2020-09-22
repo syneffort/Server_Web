@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvancedSyntax", "AdvancedSyntax\AdvancedSyntax.csproj", "{1DAF8FE6-0705-47CA-8B11-CF50FC33494E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "async_await", "AdvancedSyntax\async_await.csproj", "{1DAF8FE6-0705-47CA-8B11-CF50FC33494E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "linq", "linq\linq.csproj", "{D8B7D2D4-75AF-487B-BB55-DEB0C5B53A0B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{1DAF8FE6-0705-47CA-8B11-CF50FC33494E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DAF8FE6-0705-47CA-8B11-CF50FC33494E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DAF8FE6-0705-47CA-8B11-CF50FC33494E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8B7D2D4-75AF-487B-BB55-DEB0C5B53A0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8B7D2D4-75AF-487B-BB55-DEB0C5B53A0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8B7D2D4-75AF-487B-BB55-DEB0C5B53A0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8B7D2D4-75AF-487B-BB55-DEB0C5B53A0B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
