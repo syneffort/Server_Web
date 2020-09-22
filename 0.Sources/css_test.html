@@ -16,13 +16,57 @@
                 text-align: center;
                 color: blue;
             }
+
+            table, th, td
+            {
+                border-collapse: collapse;
+                padding: 5px;
+                border: 1px solid black;
+                text-align: center;
+            }
+
+            h1
+            {
+                border-bottom: 1px solid red;
+                text-align: center;
+                padding-bottom: 10px;
+            }
         </style>
     </head>
     <body>
+        <h1>이 문장은 제목입니다.</h1>
+
         <p id="para1">Hello World!</p>
         <p>이 문단은 스타일의 영향을 받지 않습니다.</p>
 
-        <h1 class="center">center 클래스의 영향을 받습니다.</h1>
+        <h2 class="center">center 클래스의 영향을 받습니다.</h1>
         <p class="center">center 클래스의 영향을 받아요.</p>
+
+        <br>
+
+        <table>
+            <thead style="background-color: darkgray;">
+                <tr>
+                    <th>Month</th>
+                    <th>Saving</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>January</td>
+                    <td>$100</td>
+                </tr>
+                <tr>
+                    <td>Febuary</td>
+                    <td>$60</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td style="background-color: darkgray; font-weight: bold;">Sum</td>
+                    <td style="font-weight: bold;">$160</td>
+                </tr>
+            </tfoot>
+        </table>
     </body>
 </html>
