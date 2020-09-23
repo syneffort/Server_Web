@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloBlazorClient", "HelloB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloEmpty_Razor", "HelloEmpty_Razor\HelloEmpty_Razor.csproj", "{B01937B7-FD10-45EA-B250-9237EC362E26}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloEmpty_WebAPI", "HelloEmpty_WebAPI\HelloEmpty_WebAPI.csproj", "{810326D2-EDC1-4444-97EA-63E9ADF9C776}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{B01937B7-FD10-45EA-B250-9237EC362E26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B01937B7-FD10-45EA-B250-9237EC362E26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B01937B7-FD10-45EA-B250-9237EC362E26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{810326D2-EDC1-4444-97EA-63E9ADF9C776}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{810326D2-EDC1-4444-97EA-63E9ADF9C776}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{810326D2-EDC1-4444-97EA-63E9ADF9C776}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{810326D2-EDC1-4444-97EA-63E9ADF9C776}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
