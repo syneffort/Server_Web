@@ -17,6 +17,7 @@ namespace linq
         public int Level { get; set; }
         public int Hp { get; set; }
         public int Attack { get; set; }
+        public List<int> Items { get; set; } = new List<int>();
     }
 
     class Program
@@ -45,9 +46,13 @@ namespace linq
                 Player player = new Player()
                 {
                     ClassType = type,
-                    Level = rand.Next(100, 1000),
+                    Level = rand.Next(1, 11),
+                    Hp = rand.Next(100, 1000),
                     Attack = rand.Next(5, 50)
                 };
+
+                for (int j = 0; j < 5; j++)
+                    player.Items.Add(rand.Next(1, 101));
 
                 _players.Add(player);
 
@@ -75,6 +80,42 @@ namespace linq
             {
                 Console.WriteLine($"{p.Level} {p.Hp}");
             }
+
+            // 중첩 from
+            // 아이템 id가 30 이하인 아이템 목록을 추출
+            var playerItems = from p in _players
+                              from i in p.Items
+                              where i < 30
+                              select new { p, i };
+
+            var li = playerItems.ToList();
+
+            // Grouping
+            var playerByLevel = from p in _players
+                                group p by p.Level into g
+                                orderby g.Key
+                                select new { g.Key, Players = g };
+
+            // Join (inner) or Outer Join
+            List<int> levels = new List<int>() { 1, 5, 10 };
+
+            var joinPlayer = from p in _players
+                             join l in levels
+                             on p.Level equals 10
+                             select p;
+
+            // LINQ 표준 연산자
+            {
+                var players2 = from p in _players
+                              where p.ClassType == ClassType.Knight && p.Level >= 5
+                              orderby p.Level ascending
+                              select p;
+
+                var players3 =_players
+                    .Where(p => p.ClassType == ClassType.Knight && p.Level >= 5)
+                    .OrderBy(p => p.Level)
+                    .Select(p => p);
+            }
         }
 
         static public List<Player> GetHightLevelKnight()
@@ -86,7 +127,7 @@ namespace linq
                 if (player.ClassType != ClassType.Knight)
                     continue;
 
-                if (player.Level < 50)
+                if (player.Level < 5)
                     continue;
 
                 players.Add(player);
