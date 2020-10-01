@@ -4,7 +4,19 @@
 
 <h3>Online Users</h3>
 
-<ShowUser Users="_users" CallbackTest1="CallbackTestMethod1" CallBackTest2="CallbackTestMethod2" @ref="_showUser"></ShowUser>
+<label>Theme Color</label>
+<select class="form-control" @bind="_selectedColor">
+    @foreach (string option in _option)
+    {
+        <option value="@option">
+            @option
+        </option>
+    }
+</select>
+
+<CascadingValue Name="ThemeColor" Value="_selectedColor">
+    <ShowUser Users="_users" CallbackTest1="CallbackTestMethod1" CallBackTest2="CallbackTestMethod2" @ref="_showUser"></ShowUser>
+</CascadingValue>
 
 <br />
 
@@ -24,8 +36,11 @@
 
 @code {
 
-    List<UserData> _users = new List<UserData>();
-    ShowUser _showUser;
+    private string _selectedColor = "Green";
+    private List<string> _option = new List<string>() { "Green", "Red", "Bule" };
+
+    private List<UserData> _users = new List<UserData>();
+    private ShowUser _showUser;
 
     private string _inputName;
 
