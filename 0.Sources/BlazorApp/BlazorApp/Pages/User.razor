@@ -3,19 +3,10 @@
 @using BlazorApp.Data; 
 
 <h3>Online Users</h3>
-<p>
-    User : <b>@_users.Count</b>
-</p> <br />
 
-<ul class="list-group">
-    @foreach (UserData user in _users)
-    {
-        <li @key="user" class="list-group-item">
-            <button type="button" class="btn btn-link" @onclick="(() => KickUser(user))">[Kick]</button>
-            <label>@user.Name</label>
-        </li>
-    }
-</ul> <br />
+<ShowUser Users="_users" CallbackTest1="CallbackTestMethod1" CallBackTest2="CallbackTestMethod2" @ref="_showUser"></ShowUser>
+
+<br />
 
 <div class="container">
     <div class="row">
@@ -25,7 +16,7 @@
         <div class="col">
             <!-- 속성 (attribute)에도 binding 할 수 있음-->
             <!-- conditional attribute 속성 저차에 조건을 붙일 수 있음-->
-            <button class="@_btnClass" type="button" @onclick="AddUser" disabled="@(_users.Count >= 5)">Add a user</button>
+            <button class="btn btn-primary" type="button" @onclick="AddUser" disabled="@(_users.Count >= 5)">Add a user</button>
         </div>
     </div>
 </div>
@@ -34,50 +25,24 @@
 @code {
 
     List<UserData> _users = new List<UserData>();
+    ShowUser _showUser;
 
     private string _inputName;
-    private string _btnClass = "btn btn-primary";
-
-    protected override void OnInitialized()
-    {
-        _users.Add(new UserData() { Name = "Synk" });
-        _users.Add(new UserData() { Name = "VoidSynk" });
-        _users.Add(new UserData() { Name = "MassiveSynk" });
-
-        RefreshButton();
-
-        base.OnInitialized();
-    }
 
     private void AddUser()
     {
-        if (_inputName == "")
-        {
-            _inputName = string.Empty;
-            return;
-        }
-
-        _users.Add(new UserData() { Name = _inputName });
+        _showUser.AddUser(new UserData() { Name = _inputName });
         _inputName = string.Empty;
-
-        RefreshButton();
     }
 
-    private void KickUser(UserData user)
+    private void CallbackTestMethod1()
     {
-        if (!_users.Contains(user))
-            return;
-
-        _users.Remove(user);
-
-        RefreshButton();
+        _inputName = "callback1 is activated!";
+        StateHasChanged();
     }
 
-    private void RefreshButton()
+    private void CallbackTestMethod2()
     {
-        if (_users.Count % 2 == 0)
-            _btnClass = "btn btn-primary";
-        else
-            _btnClass = "btn btn-secondary";
+        _inputName = "callback2 is activated!";
     }
 }
