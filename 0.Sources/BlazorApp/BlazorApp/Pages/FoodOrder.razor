@@ -1,0 +1,36 @@
+﻿@page "/foodorder"
+
+@inject IFoodService foodService;
+@inject PaymentService paymentService;
+
+@inject SingletonServie singleton;
+@inject TransientServie transient;
+@inject ScopedServie scoped;
+
+@using BlazorApp.Data;
+
+<div>
+    @foreach (Food food in foodService.GetFoods())
+    {
+        <div>@food.Name</div>
+        <div>$ @food.Price</div>
+    }
+</div>
+
+<div>
+    <h1>Singleton</h1>
+    Guid : @singleton.ID
+    <h1>Transient</h1>
+    Guid : @transient.ID
+    <h1>Scoped</h1>
+    Guid : @scoped.ID
+</div>
+
+@code {        
+    
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+}
