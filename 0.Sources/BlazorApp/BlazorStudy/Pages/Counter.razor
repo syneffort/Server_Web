@@ -1,0 +1,31 @@
+﻿@page "/counter"
+@page "/counter/{CurrentCount:int}" @*~/counter/100 입력 시 매개변수로서 CurrentCount에 100 할당됨*@
+
+@layout MainLayout2
+@inject NavigationManager navManager
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+<a class="btn btn-primary" href="fetchdata">Go to Fetch Data!</a>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+
+        navManager.NavigateTo("fetchdata");
+    }
+
+    [Parameter]
+    public int CurrentCount
+    {
+        get { return currentCount; }
+        set { currentCount = value; }
+    }
+}
