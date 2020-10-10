@@ -1,0 +1,111 @@
+﻿@page "/ranking"
+@using RankingApp.Data.Models
+@using RankingApp.Data.Services
+
+@inject RankService RankService 
+
+<h3>Ranking</h3>
+
+<AuthorizeView>
+    <Authorized>
+        @if (_gameResults == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Date</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (GameResult gameResult in _gameResults)
+                    {
+                        <tr>
+                            <td>@gameResult.UserName</td>
+                            <td>@gameResult.Date</td>
+                            <td>@gameResult.Score</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <p>
+                <button class="btn btn-primary" @onclick="AddGameResult">Add</button>
+            </p>
+
+            @if (_showPopup)
+            {
+                <div class="modal" style="display:block" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Add or update game result</h3>
+                                <button type="button" class="close" @onclick="ClosePopup">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <label for="UserName">User name</label>
+                                <input class="form-control" type="text" placeholder="User name" @bind-value="_gameResult.UserName" />
+                                <label for="Score">Score</label>
+                                <input class="form-control" type="text" placeholder="Score" @bind-value="_gameResult.Score" />
+                                <button class="btn btn-primary" @onclick="SaveGameResult">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p>You are not authorized.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+    private List<GameResult> _gameResults;
+
+    private bool _showPopup;
+    private GameResult _gameResult;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _gameResults = await RankService.GetGameResultsAsync(); ;
+    }
+
+    private void AddGameResult()
+    {
+        _showPopup = true;
+        _gameResult = new GameResult() { Id = 0 };
+    }
+
+    private void ClosePopup()
+    {
+        _showPopup = false;
+    }
+
+    private async Task SaveGameResult()
+    {
+        // Add
+        if (_gameResult.Id == 0)
+        {
+            _gameResult.Date = DateTime.Now;
+            var result = RankService.AddGameResult(_gameResult);
+        }
+        // Update
+        else
+        {
+
+        }
+
+        _gameResults = await RankService.GetGameResultsAsync();
+
+        _showPopup = false;
+    }
+}
