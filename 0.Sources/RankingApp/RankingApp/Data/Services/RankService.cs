@@ -27,13 +27,39 @@ namespace RankingApp.Data.Services
         // Read
         public Task<List<GameResult>> GetGameResultsAsync()
         {
-            List<GameResult> results = _context.GameResults.OrderByDescending(item => item.Score).ToList();
+            List<GameResult> results = _context.GameResults.OrderByDescending(x => x.Score).ToList();
 
             return Task.FromResult(results);
         }
 
         // Update
+        public Task<bool> UpdateGameResult(GameResult gameResult)
+        {
+            GameResult findResult = _context.GameResults.Where(x => x.Id == gameResult.Id).FirstOrDefault();
+            if (findResult == null)
+                return Task.FromResult(false);
+
+            findResult.UserName = gameResult.UserName;
+            findResult.Score = gameResult.Score;
+            findResult.Date = DateTime.Now;
+
+            _context.SaveChanges();
+
+            return Task.FromResult(true);
+        }
 
         // Delete
+        public Task<bool> DeleteGameResult(GameResult gameResult)
+        {
+            GameResult findResult = _context.GameResults.Where(x => x.Id == gameResult.Id).FirstOrDefault();
+            if (findResult == null)
+                return Task.FromResult(false);
+
+            _context.GameResults.Remove(gameResult);
+
+            _context.SaveChanges();
+
+            return Task.FromResult(true);
+        }
     }
 }
