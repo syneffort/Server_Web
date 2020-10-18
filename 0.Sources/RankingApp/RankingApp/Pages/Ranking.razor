@@ -1,5 +1,5 @@
 ﻿@page "/ranking"
-@using RankingApp.Data.Models
+@using SharedData.Models
 @using RankingApp.Data.Services
 
 @inject RankService RankService 
@@ -106,7 +106,7 @@
 
     private async Task DeleteGameResult(GameResult gameResult)
     {
-        var result = RankService.DeleteGameResult(_gameResult);
+        var result = await RankService.DeleteGameResult(_gameResult);
 
         _gameResults = await RankService.GetGameResultsAsync();
     }
@@ -117,12 +117,12 @@
         if (_gameResult.Id == 0)
         {
             _gameResult.Date = DateTime.Now;
-            var result = RankService.AddGameResult(_gameResult);
+            var result = await RankService.AddGameResult(_gameResult);
         }
         // Update
         else
         {
-            var result = RankService.UpdateGameResult(_gameResult);
+            var result = await RankService.UpdateGameResult(_gameResult);
         }
 
         _showPopup = false;

@@ -1,65 +1,77 @@
-﻿using RankingApp.Data.Models;
+﻿using Microsoft.VisualBasic;
+using Newtonsoft.Json;
+using SharedData.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace RankingApp.Data.Services
 {
+    // [C <-> S] <-> [S(Api) <-> DB]
     public class RankService
     {
-        ApplicationDbContext _context;
+        HttpClient _httpClient;
 
-        public RankService(ApplicationDbContext context)
+        public RankService(HttpClient client)
         {
-            _context = context;
+            _httpClient = client;
         }
 
         // Create
-        public Task<GameResult> AddGameResult(GameResult gameResult)
+        public async Task<GameResult> AddGameResult(GameResult gameResult)
         {
-            _context.GameResults.Add(gameResult);
-            _context.SaveChanges();
+            string jsonStr = JsonConvert.SerializeObject(gameResult);
+            StringContent convert = new StringContent(jsonStr, Encoding.UTF8, "application/json");
+            HttpResponseMessage result = await _httpClient.PostAsync("api/ranking", convert);
 
-            return Task.FromResult(gameResult);
+            if (result.IsSuccessStatusCode == false)
+                throw new Exception("AddGameResult Failed");
+
+            string resultContent = await result.Content.ReadAsStringAsync();
+            GameResult resultGameResult = JsonConvert.DeserializeObject<GameResult>(resultContent);
+
+            return resultGameResult;
         }
 
         // Read
-        public Task<List<GameResult>> GetGameResultsAsync()
+        public async Task<List<GameResult>> GetGameResultsAsync()
         {
-            List<GameResult> results = _context.GameResults.OrderByDescending(x => x.Score).ToList();
+            HttpResponseMessage result = await _httpClient.GetAsync("api/ranking");
 
-            return Task.FromResult(results);
+            if (result.IsSuccessStatusCode == false)
+                throw new Exception("GetGameReulst Failed");
+
+            string resultContent = await result.Content.ReadAsStringAsync();
+            List<GameResult> resultGameResults = JsonConvert.DeserializeObject<List<GameResult>>(resultContent);
+
+            return resultGameResults;
         }
 
         // Update
-        public Task<bool> UpdateGameResult(GameResult gameResult)
+        public async Task<bool> UpdateGameResult(GameResult gameResult)
         {
-            GameResult findResult = _context.GameResults.Where(x => x.Id == gameResult.Id).FirstOrDefault();
-            if (findResult == null)
-                return Task.FromResult(false);
+            string jsonStr = JsonConvert.SerializeObject(gameResult);
+            StringContent convert = new StringContent(jsonStr, Encoding.UTF8, "application/json");
+            HttpResponseMessage result = await _httpClient.PutAsync("api/ranking", convert);
 
-            findResult.UserName = gameResult.UserName;
-            findResult.Score = gameResult.Score;
-            findResult.Date = DateTime.Now;
+            if (result.IsSuccessStatusCode == false)
+                throw new Exception("UpdateGameResult Failed");
 
-            _context.SaveChanges();
-
-            return Task.FromResult(true);
+            return true;
         }
 
         // Delete
-        public Task<bool> DeleteGameResult(GameResult gameResult)
+        public async Task<bool> DeleteGameResult(GameResult gameResult)
         {
-            GameResult findResult = _context.GameResults.Where(x => x.Id == gameResult.Id).FirstOrDefault();
-            if (findResult == null)
-                return Task.FromResult(false);
+            HttpResponseMessage result = await _httpClient.DeleteAsync($"api/ranking/{gameResult.Id}");
 
-            _context.GameResults.Remove(gameResult);
+            if (result.IsSuccessStatusCode == false)
+                throw new Exception("DeleteGameResult Failed");
 
-            _context.SaveChanges();
-
-            return Task.FromResult(true);
+            return true;
         }
     }
 }
